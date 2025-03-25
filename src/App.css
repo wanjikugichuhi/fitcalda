@@ -1,0 +1,115 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: plum;
+  min-height: 20vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  font-style: italic;
+  color: rgb(89, 23, 89);
+}
+
+.shape {
+  border-radius: 50%;
+  
+}
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+  }
+.Signup {
+  background-color: #87CEEB;
+  justify-content: center;
+  padding: 20px;
+  background: linear-gradient();
+  color: aqua;
+  margin:10px;
+  }
+.Signup button {
+  background-color: E6E6FA;
+  color: #fff;
+  cursor: pointer;
+
+}
+.Signin {
+  background-color: #87CEEB;
+}
+
+.button {
+  box-shadow: 0 0 5px cornflowerblue,
+  0 0 25px cornflowerblue;
+}
+.button:hover {
+  box-shadow: 0 0 5px cornflowerblue,
+  0 0 25px cornflowerblue, 0 0 50px cornflowerblue,
+  0 0 100px cornflowerblue,  0 0 200px;
+
+}
+.form{
+  display: block;
+  box-sizing: border-box;
+  padding: 40px;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: brightness(40%);
+  flex-direction: column;
+  display: flex;
+  gap: 5px;
+
+}
+
+.input{
+  background-color:rgba(255,255,255,0.3) ;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 20px;
+  padding: 0px 20px;
+  margin-bottom: 20px;
+  color: aliceblue;
+  
+}
+.nav{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+
+}
+.card-body {
+  background-color: cornflowerblue;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto;
+  box-shadow: o 4px 8px rgba(81, 2, 55, 0.1);
+
+}
+.image{
+  height: 50px;
+  
+}
