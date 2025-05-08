@@ -1,41 +1,130 @@
-import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Footer from "./Footer";
+import Navbar from "./Navbar";
 
 
-const Signin=()=>{
-    const [email,setEmail]=useState("")
-    const [password,setPassword]=useState("")
-    return(
-    
-        
-        <div className=" container-fluid d-flex row justify-content-center mt-4">
-            <div className="card shadow p-4 col-md-6 text-center">
-            <nav className="mt-5 mb-2 me-3">
-                <Link className="btn btn-secondary me-3" to={"/"}> Home</Link>
-                <Link className="btn btn-dark me-3" to={"/addproducts"}>Add products</Link>
-                <Link className="btn btn-dark me-3"to={"/signin"}>Sign In</Link>
-                <Link className="btn btn-dark me-3"to={"/signup"}>Sign Up</Link>
-                <Link className="btn btn-dark me-3" to={"/getproducts"}>Get Product</Link>
-                
-            </nav>
-            <hr />
-            
-                <h2>Sign In</h2>
-                <form>
-                    <input type="email" placeholder="input email" value={email} onChange={(e)=>{setEmail(e.target.value)}} />
-                    <br />
-                    <br />
-                    <input type="password" placeholder="enter password"  value={password} onChange={(e)=>{setPassword(e.target.value)}}/>
-                    <br />
-                    <br />
-                    <button type="submit" className="btn btn-success">Sign In</button>
-                </form>
-                {/* <p>If you dont have an account you can just <Link to={'/signup'}>Sign Up</Link></p> */}
+const Signin = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // Toggle visibility
+  const [passwordError, setPasswordError] = useState("");
 
-            </div>
+  const navigate = useNavigate();
 
-        </div>
-    )
+  // Password strength validation
+  const validatePassword = (value) => {
+    const lengthCheck = value.length >= 8;
+    const uppercaseCheck = /[A-Z]/.test(value);
+    const lowercaseCheck = /[a-z]/.test(value);
+    const symbolCheck = /[^A-Za-z0-9]/.test(value);
 
-}
-export default Signin
+    if (!lengthCheck || !uppercaseCheck || !lowercaseCheck || !symbolCheck) {
+      setPasswordError("Password must be at least 8 characters long and include uppercase, lowercase, and a symbol.");
+    } else {
+      setPasswordError("");
+    }
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+
+    // Prevent form submission if password is weak
+    if (passwordError) {
+      setError("Please correct the password requirements.");
+      return;
+    }
+
+    setLoading("Please wait as we log you In...");
+    setError("");
+    setSuccess("");
+
+    try {
+      const data = new FormData();
+      data.append("email", email);
+      data.append("password", password);
+
+      const response = await axios.post(
+        "https://wanjikugichuhi.pythonanywhere.com/api/signin",
+        data
+      );
+
+      setLoading("");
+
+      if (response.data.user) {
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        navigate("/");
+      } else {
+        setError(response.data.Message);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  return (
+    <div className="container-fluid d-flex row justify-content-center mt-4">
+      <Navbar />
+      {/* <Carousel/> */}
+      <div className="col-md-6 card shadow p-4 text-center">
+        <h2>Sign In</h2>
+        <form onSubmit={submit}>
+          {loading && <div className="alert alert-info">{loading}</div>}
+          {success && <div className="alert alert-success">{success}</div>}
+          {error && <div className="alert alert-danger">{error}</div>}
+
+          <input
+            type="email"
+            placeholder="Enter your email Address Here."
+            className="form-control"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <br />
+
+          {/* Password input with eye toggle */}
+          <div className="input-group">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Enter the password of the user"
+              className="form-control"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                validatePassword(e.target.value);
+              }}
+              required
+            />
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={() => setShowPassword(!showPassword)}
+              tabIndex={-1}
+            >
+              {showPassword ? "🙈" : "👁️"}
+            </button>
+          </div>
+
+          {/* Password strength warning */}
+          {password && passwordError && (
+            <small className="text-danger">{passwordError}</small>
+          )}
+          <br />
+
+          <button type="submit" className="btn btn-primary">
+            Sign In
+          </button>
+        </form>
+      </div>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default Signin;

@@ -1,6 +1,8 @@
 import axios from "axios"
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import Footer from "./Footer"
+
 
 const Addproduct=()=>{
     const[product_name,setproduct_name]=useState("")
@@ -30,7 +32,7 @@ const Addproduct=()=>{
 
         try {
             // send data to api
-            const response = await axios.post("https://jobsimba.pythonanywhere.com/api/add_product",data)
+            const response = await axios.post("https://wanjikugichuhi.pythonanywhere.com/api/addproduct",data)
 
             setLoading("")
             seterror("")
@@ -72,16 +74,21 @@ const Addproduct=()=>{
                 <input type="number" className="form-control" placeholder="Product cost" value={product_cost} onChange={(e)=>setproduct_cost(e.target.value)} /><br/>
                 
                 <label htmlFor="">Browse/Upload product photo</label>
-                <input type="file" className="form-control" accept="/image/*" onChange={(e)=>setproduct_photo(e.target.files[0])}/> <br />
+                <input
+                 type="file" 
+                 className="form-control"
+                  accept="/image/*"
+                   onChange={(e)=>setproduct_photo(e.target.files[0])}/> <br />
 
                 <button type="submit" className="btn btn-primary">Upload Product</button>
             </form>
 
-             
 
             </div>
-            
+            <hr />
+            <Footer/>
         </div>
+        
     )
 }
 export default Addproduct

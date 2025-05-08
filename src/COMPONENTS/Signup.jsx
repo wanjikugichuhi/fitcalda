@@ -1,6 +1,11 @@
 import axios from "axios"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import Footer from "./Footer"
+import Navbar from "./Navbar"
+// import { Carousel } from "bootstrap"
+
+
 
 const Signup=()=>{
     const[username,setUsername]=useState("")
@@ -33,7 +38,7 @@ const Signup=()=>{
             // send our data using axios
             // axios is able to use request method such as post, get, put,patch etc
             
-            const response=await axios.post("https://jobsimba.pythonanywhere.com/api/signup",data)
+            const response=await axios.post("https://wanjikugichuhi.pythonanywhere.com/api/signup",data)
             setLoading("")
             seterror("")
             setsuccess(response.data.message)
@@ -51,25 +56,22 @@ const Signup=()=>{
             seterror(error.message)
             
         }
-
-
+        
+        
     }
     return(
-        <div className=" container-fluid d-flex row justify-content-center mt-4">
-            <div className="card shadow p-4 col-md-6 text-center">
-            <nav className="mt-5 mb-2 me-3">
-                <Link className="btn btn-secondary me-3" to={"/"}> Home</Link>
-                <Link className="btn btn-dark me-3" to={"/addproducts"}>Add products</Link>
-                <Link className="btn btn-dark me-3"to={"/signin"}>Sign In</Link>
-                <Link className="btn btn-dark me-3"to={"/signup"}>Sign Up</Link>
-            </nav>
+        <div className="container-fluid d-flex row justify-content-center mt-4">
+            <Navbar />
+            {/* <Carousel/> */}
+            <div className="col-md-6 card shadow p-4 text-center">
+           
             <hr />
                 <h2>Sign up</h2>
                 {/* when the form is submitted [onSubmit], it invokes the submit function  */}
                 <form onSubmit={submit}>
-                    <span className="text-info">{loading}</span>
-                    <span className="text-success">{success}</span>
-                    <span>{error}</span>
+                    {loading && <div className="alert alert-info">{loading}</div>}
+                    {success && <div className="alert alert-success">{success}</div>}
+                    {error && <div className="alert alert-danger">{error}</div>}
                     <input type="text" className="form-control"  placeholder="Enter Username" required value={username} onChange={(e)=>setUsername(e.target.value)}/> 
                     <br/>
                     <input type="email" className="form-control" placeholder="Enter your email" required  value={email} onChange={(e)=>setEmail(e.target.value)}/>
@@ -79,14 +81,14 @@ const Signup=()=>{
                     <input type="password" className="form-control" placeholder="Enter your password" required  value={password} onChange={(e)=>setpassword(e.target.value)}/>
                     <br /> 
                     <button type="submit" className="btn btn-primary">Sign up</button>
-                </form>
-            
                 <p className="text-center">Already have an account? <Link to= {'/Signin'}>Sign in</Link></p>
+                </form>
+            <hr />
+        <Footer/>
                 
             </div>
 
         </div>
-        
     )
 }
 export default Signup
